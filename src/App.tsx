@@ -1,34 +1,85 @@
 import Konva from 'konva'
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { DollCanvas } from './components/DollCanvas'
 import { StatusBar } from './components/StatusBar'
 import { WardrobePanel } from './components/WardrobePanel'
 import { exportDoll } from './features/export-doll'
-import { getOrCreateRoomId, parseSnapshotId, withRoomHash } from './features/room-url'
+import { getOrCreateRoomId, parseSnapshotId, withRoomHash, withSnapshotHash } from './features/room-url'
+import { DollRoomClient, loadSnapshot } from './realtime/room-client'
 import { useDollStore } from './store/use-doll-store'
 
 export default function App() {
   const dispatch = useDollStore((state) => state.dispatch)
   const replaceRoom = useDollStore((state) => state.replaceRoom)
   const stageRef = useRef<Konva.Stage>(null)
+  const clientRef = useRef<DollRoomClient | null>(null)
   const pageUrl = useMemo(() => new URL(window.location.href), [])
   const snapshotId = parseSnapshotId(pageUrl)
   const readOnly = Boolean(snapshotId)
+  const workerUrl = (import.meta.env.VITE_WORKER_URL || 'http://localhost:8787').replace(/\/$/, '')
+  const [connection, setConnection] = useState<'connecting' | 'connected' | 'offline'>('connecting')
+  const [online, setOnline] = useState(1)
+  const [activity, setActivity] = useState(readOnly ? '已保存的搭配纪念' : '正在进入两人的衣橱…')
 
   useEffect(() => {
-    if (snapshotId) return
+    if (snapshotId) {
+      loadSnapshot(workerUrl, snapshotId)
+        .then((room) => {
+          replaceRoom(room)
+          setConnection('connected')
+          setActivity('只读纪念已加载')
+        })
+        .catch(() => {
+          setConnection('offline')
+          setActivity('纪念链接暂时无法读取')
+        })
+      return
+    }
     const roomId = getOrCreateRoomId(pageUrl, window.localStorage)
     window.history.replaceState(null, '', withRoomHash(pageUrl, roomId))
     replaceRoom({ ...useDollStore.getState().room, roomId })
-  }, [pageUrl, replaceRoom, snapshotId])
+    const client = new DollRoomClient(workerUrl, roomId, {
+      onConnection: (state) => {
+        setConnection(state)
+        if (state === 'offline') setActivity('离线也能继续搭配，联网后自动同步')
+      },
+      onPresence: setOnline,
+      onSnapshot: (room, source) => {
+        replaceRoom(room)
+        setActivity(source === 'self' ? '你的搭配已同步' : '对方刚刚更新了搭配')
+      },
+      onError: () => setActivity('这次操作没有同步，请再试一次'),
+    })
+    clientRef.current = client
+    useDollStore.getState().setSender((operation) => client.send(operation))
+    client.connect()
+    return () => {
+      useDollStore.getState().setSender(null)
+      client.close()
+      clientRef.current = null
+    }
+  }, [pageUrl, replaceRoom, snapshotId, workerUrl])
 
   const handleExport = () => {
     if (stageRef.current) exportDoll(stageRef.current)
   }
 
-  const handleShare = () => {
-    void navigator.clipboard?.writeText(window.location.href)
+  const handleShare = async () => {
+    try {
+      const createdSnapshotId = await clientRef.current?.createSnapshot()
+      if (!createdSnapshotId) throw new Error('NOT_CONNECTED')
+      await navigator.clipboard?.writeText(withSnapshotHash(new URL(window.location.href), createdSnapshotId))
+      setActivity('只读纪念链接已复制')
+    } catch {
+      setActivity('暂时无法生成纪念链接，请稍后再试')
+    }
   }
+
+  const connectionLabel = readOnly
+    ? (connection === 'connected' ? '只读纪念' : '加载中')
+    : connection === 'connected'
+      ? `${online} 人在线`
+      : connection === 'offline' ? '离线试玩' : '同步中'
 
   return (
     <main className="app-shell">
@@ -41,7 +92,8 @@ export default function App() {
           </div>
         </div>
         <StatusBar
-          connectionLabel={readOnly ? '只读纪念' : '单机准备'}
+          connectionLabel={connectionLabel}
+          activityLabel={activity}
           readOnly={readOnly}
           onExport={handleExport}
           onShare={handleShare}

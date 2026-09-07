@@ -33,8 +33,9 @@ button:focus-visible { outline: 3px solid rgba(184, 111, 125, .4); outline-offse
 .brand-lockup h1 { font: 700 25px/1.25 "STKaiti", "KaiTi", serif; letter-spacing: .11em; color: var(--brown); }
 .top-actions { display: flex; align-items: center; gap: 10px; }
 .presence-pill, .soft-button { border: 1px solid var(--line); border-radius: 999px; background: rgba(255,253,249,.8); color: #755a55; padding: 10px 15px; box-shadow: 0 7px 18px rgba(102,75,68,.06); }
-.presence-pill { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; }
+.presence-pill { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 8px; font-size: 13px; white-space: nowrap; }
 .presence-pill i { width: 8px; height: 8px; border-radius: 50%; background: #c8a49e; box-shadow: 0 0 0 4px rgba(200,164,158,.15); }
+.activity-hint { max-width: 210px; overflow: hidden; color: var(--ink-soft); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
 .soft-button { cursor: pointer; transition: .2s ease; }
 .soft-button:hover { transform: translateY(-2px); border-color: #d9aaa9; color: #a56670; }
 
@@ -81,7 +82,8 @@ button:focus-visible { outline: 3px solid rgba(184, 111, 125, .4); outline-offse
   .top-actions { order: 3; width: 100%; overflow-x: auto; padding: 2px 0 5px; scrollbar-width: none; }
   .top-actions::-webkit-scrollbar { display: none; }
   .presence-pill { padding: 8px 11px; font-size: 12px; }
-  .soft-button { flex: 0 0 auto; padding: 8px 11px; font-size: 12px; }
+  .activity-hint { flex: 0 0 auto; max-width: 96px; }
+  .soft-button { flex: 0 0 auto; padding: 8px 11px; font-size: 12px; white-space: nowrap; }
   .studio-layout { display: flex; flex-direction: column; gap: 22px; }
   .canvas-column, .wardrobe-column { width: 100%; }
   .canvas-shell { border-radius: 27px 27px 34px 27px; }
