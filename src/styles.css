@@ -1,0 +1,94 @@
+:root {
+  color: #4d3936;
+  background: #f8eee8;
+  font-family: ui-rounded, "Hiragino Maru Gothic ProN", "Microsoft YaHei", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --cream: #fffaf3;
+  --paper: #fffdf9;
+  --pink: #e9aeb6;
+  --rose: #c77f8b;
+  --brown: #5b413d;
+  --muted: #9d7f79;
+  --line: #ead8cf;
+  --shadow: 0 24px 70px rgba(105, 72, 65, 0.13);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; min-height: 100vh; background:
+  radial-gradient(circle at 9% 7%, rgba(255,255,255,.95) 0 3px, transparent 4px),
+  radial-gradient(circle at 91% 18%, rgba(224,168,177,.22) 0 100px, transparent 102px),
+  linear-gradient(145deg, #fff9f4 0%, #f7ebe6 52%, #f4e4e0 100%);
+  background-size: 31px 31px, auto, auto;
+}
+button { font: inherit; }
+button:focus-visible { outline: 3px solid rgba(184, 111, 125, .4); outline-offset: 3px; }
+
+.app-shell { width: min(1220px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 48px; }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 28px; }
+.brand-lockup { display: flex; align-items: center; gap: 13px; }
+.brand-mark { display: grid; place-items: center; width: 52px; aspect-ratio: 1; border: 1px solid #d8b9b2; border-radius: 17px 17px 21px 17px; background: rgba(255,253,248,.8); color: var(--rose); font: 700 27px/1 Georgia, serif; box-shadow: 0 8px 20px rgba(104,69,63,.08); transform: rotate(-3deg); }
+.brand-lockup p, .brand-lockup h1 { margin: 0; }
+.brand-lockup p { color: var(--muted); font: 700 10px/1.4 Georgia, serif; letter-spacing: .2em; }
+.brand-lockup h1 { font: 700 25px/1.25 "STKaiti", "KaiTi", serif; letter-spacing: .11em; color: var(--brown); }
+.top-actions { display: flex; align-items: center; gap: 10px; }
+.presence-pill, .soft-button { border: 1px solid var(--line); border-radius: 999px; background: rgba(255,253,249,.8); color: #755a55; padding: 10px 15px; box-shadow: 0 7px 18px rgba(102,75,68,.06); }
+.presence-pill { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; }
+.presence-pill i { width: 8px; height: 8px; border-radius: 50%; background: #c8a49e; box-shadow: 0 0 0 4px rgba(200,164,158,.15); }
+.soft-button { cursor: pointer; transition: .2s ease; }
+.soft-button:hover { transform: translateY(-2px); border-color: #d9aaa9; color: #a56670; }
+
+.studio-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(330px, .8fr); gap: 34px; align-items: start; }
+.section-caption { margin: 0 0 12px 12px; color: #9b7d77; font: 700 10px/1 Georgia, serif; letter-spacing: .18em; }
+.section-caption span { color: var(--rose); margin-right: 8px; }
+.canvas-shell { position: relative; width: 100%; overflow: hidden; border: 1px solid rgba(218,193,184,.8); border-radius: 36px 36px 44px 36px; background: #fff; box-shadow: var(--shadow); }
+.canvas-shell canvas { display: block; width: 100% !important; height: auto !important; }
+.canvas-shell > div:not(.tape) { margin: auto; }
+.canvas-note { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%) rotate(-1deg); white-space: nowrap; padding: 8px 15px; border-radius: 7px; background: rgba(255,248,235,.86); color: #a07870; font: 14px/1.2 "STKaiti", "KaiTi", serif; box-shadow: 0 5px 16px rgba(85,54,48,.08); pointer-events: none; }
+.tape { position: absolute; z-index: 3; top: 13px; width: 72px; height: 24px; background: rgba(243,213,204,.72); pointer-events: none; }
+.tape-left { left: 12px; transform: rotate(-11deg); }
+.tape-right { right: 12px; transform: rotate(9deg); }
+
+.wardrobe { padding: 25px; border: 1px solid rgba(218,193,184,.8); border-radius: 32px 32px 38px 32px; background: rgba(255,253,249,.86); backdrop-filter: blur(12px); box-shadow: var(--shadow); }
+.wardrobe-heading { display: flex; align-items: start; justify-content: space-between; gap: 15px; }
+.eyebrow { color: var(--rose); font: 700 9px/1 Georgia, serif; letter-spacing: .2em; }
+.wardrobe h2 { margin: 7px 0 20px; color: var(--brown); font: 700 23px/1.2 "STKaiti", "KaiTi", serif; }
+.item-count { color: var(--muted); font-size: 12px; padding-top: 8px; }
+.category-tabs { display: flex; gap: 6px; overflow-x: auto; padding: 2px 2px 12px; scrollbar-width: none; }
+.category-tabs::-webkit-scrollbar, .item-strip::-webkit-scrollbar { display: none; }
+.category-tab { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 5px; border: 0; border-radius: 999px; padding: 9px 12px; background: #f5eae5; color: #91736d; cursor: pointer; transition: .2s ease; }
+.category-tab[data-active="true"] { background: var(--brown); color: #fff9f3; box-shadow: 0 7px 16px rgba(81,55,51,.18); }
+.item-strip { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; max-height: 448px; overflow-y: auto; padding: 4px 3px 3px; }
+.wardrobe-item { position: relative; min-width: 0; border: 1px solid #efdfd8; border-radius: 21px; padding: 10px; background: #fffdf9; color: #6d514c; cursor: pointer; transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.wardrobe-item:hover { transform: translateY(-3px) rotate(-.5deg); border-color: #deb5b5; box-shadow: 0 11px 24px rgba(98,67,61,.1); }
+.wardrobe-item[data-equipped="true"] { border-color: #cc8e99; box-shadow: inset 0 0 0 2px #f6d6dc, 0 9px 24px rgba(137,87,96,.14); }
+.item-art { display: grid; place-items: center; height: 116px; border-radius: 15px; overflow: hidden; background: radial-gradient(circle, #fff 0, #fbf1ec 70%); }
+.item-art img { width: 100%; height: 100%; object-fit: contain; }
+.item-art img[data-movable="false"] { transform: scale(1.8) translateY(-1%); }
+.item-name { display: block; overflow: hidden; margin-top: 8px; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+.style-dot { position: absolute; right: 10px; top: 10px; width: 9px; height: 9px; border: 2px solid #fff; border-radius: 50%; box-shadow: 0 1px 5px rgba(0,0,0,.14); }
+.style-daily { background: #a6bda4; }.style-date { background: #e6a5ad; }.style-princess { background: #d8b0df; }
+.tiny-letter { display: flex; gap: 12px; margin: 16px 14px 0; padding: 14px 17px; border-left: 2px solid #d99ca7; color: #8d706a; font: 14px/1.7 "STKaiti", "KaiTi", serif; }
+.tiny-letter p { margin: 0; }.tiny-letter span { color: var(--rose); }
+
+@media (max-width: 800px) {
+  .app-shell { width: min(100% - 20px, 620px); padding-top: 17px; }
+  .topbar { align-items: flex-start; margin-bottom: 18px; }
+  .brand-mark { width: 45px; border-radius: 15px; }
+  .brand-lockup p { display: none; }.brand-lockup h1 { font-size: 22px; }
+  .presence-pill { padding: 8px 11px; font-size: 12px; }.soft-button { display: none; }
+  .studio-layout { display: flex; flex-direction: column; gap: 22px; }
+  .canvas-column, .wardrobe-column { width: 100%; }
+  .canvas-shell { border-radius: 27px 27px 34px 27px; }
+  .canvas-note { bottom: 12px; font-size: 12px; }
+  .wardrobe { padding: 18px 14px 16px; border-radius: 27px; }
+  .wardrobe h2 { margin-bottom: 15px; font-size: 21px; }
+  .item-strip { display: flex; gap: 10px; max-height: none; overflow-x: auto; overflow-y: hidden; padding-bottom: 5px; scrollbar-width: none; }
+  .wardrobe-item { flex: 0 0 126px; }
+  .item-art { height: 102px; }
+  .tiny-letter { margin-bottom: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+}

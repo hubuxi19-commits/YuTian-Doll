@@ -7,4 +7,5 @@ test-results/
 .dev.vars
 .wrangler/
 .DS_Store
-
+tmp/
+artifacts/
