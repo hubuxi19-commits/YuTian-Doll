@@ -85,6 +85,11 @@ export default function App() {
     }
   }
 
+  const handleInvite = async () => {
+    await navigator.clipboard?.writeText(window.location.href)
+    setActivity('共同换装网址已复制，发给对方就能一起玩')
+  }
+
   const connectionLabel = readOnly
     ? (connection === 'connected' ? '只读纪念' : '加载中')
     : connection === 'connected'
@@ -106,6 +111,7 @@ export default function App() {
           activityLabel={activity}
           readOnly={readOnly}
           onExport={handleExport}
+          onInvite={handleInvite}
           onShare={handleShare}
           onReset={() => dispatch({ type: 'reset' })}
         />
