@@ -1,9 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 1280">
-  <g stroke="#8f6568" stroke-width="8" stroke-linejoin="round">
-    <path fill="#f7d8e4" d="M516 704Q461 714 430 779L451 881Q472 901 505 880L524 805V879Q467 941 446 1067Q533 1125 640 1125Q747 1125 834 1067Q813 941 756 879V805L775 880Q808 901 829 881L850 779Q819 714 764 704L707 685H573Z"/>
-    <path fill="#fff8ee" d="M565 692Q640 756 715 692L700 802Q640 830 580 802Z"/>
-    <path fill="#eeb0ca" d="M524 871Q640 929 756 871L780 932Q640 994 500 932Z"/>
-    <path fill="none" stroke="#fff8ee" stroke-width="13" d="M476 1049Q640 1110 804 1049"/>
-    <circle cx="640" cy="874" r="18" fill="#fff5c8"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 1280"><g stroke="#77706d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path fill="#d8c3eb" d="M572 698L530 711Q492 720 470 755L485 836Q500 851 525 839L540 790V860L475 1045Q550 1095 640 1095Q730 1095 805 1045L740 860V790L755 839Q780 851 795 836L810 755Q788 720 750 711L708 698Z"/><path fill="#fff9ef" d="M574 699Q640 752 706 699L687 770Q640 795 593 770Z"/><path fill="#f4d6e9" d="M540 858Q640 895 740 858L765 923Q640 965 515 923Z"/><path fill="none" stroke="#fff4fb" d="M508 1020Q640 1070 772 1020"/><g fill="#fff8ef" stroke="none"><circle cx="568" cy="885" r="7"/><circle cx="640" cy="905" r="7"/><circle cx="712" cy="885" r="7"/></g></g></svg>

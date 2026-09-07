@@ -1,8 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 1280">
-  <g stroke="#9b7667" stroke-width="8" stroke-linejoin="round">
-    <path fill="#fff3d9" d="M514 702Q456 712 426 779L451 886Q474 904 506 879L527 806V955H753V806L774 879Q806 904 829 886L854 779Q824 712 766 702L704 684H576Z"/>
-    <path fill="#fffaf1" d="M575 690Q640 742 705 690L684 772L640 740L596 772Z"/>
-    <path fill="none" d="M640 741V954M528 862Q640 892 752 862"/>
-    <circle cx="640" cy="801" r="9" fill="#dca5a1"/><circle cx="640" cy="849" r="9" fill="#dca5a1"/><circle cx="640" cy="897" r="9" fill="#dca5a1"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 1280"><g stroke="#77706d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path fill="#fff0d2" d="M570 696L530 710Q490 720 470 755L485 838Q500 853 525 840L540 790V918Q640 944 740 918V790L755 840Q780 853 795 838L810 755Q790 720 750 710L710 696Z"/><path fill="#fffaf1" d="M570 696Q640 748 710 696L690 765L640 738L590 765Z"/><path fill="none" d="M640 739V925M540 858Q640 880 740 858"/><g fill="#d9a7a3" stroke="none"><circle cx="640" cy="795" r="8"/><circle cx="640" cy="842" r="8"/><circle cx="640" cy="889" r="8"/></g></g></svg>

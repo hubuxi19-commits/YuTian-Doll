@@ -28,6 +28,19 @@ describe('outfit state', () => {
     })
   })
 
+  it('adds a coordinated skirt when a top is selected on its own', () => {
+    const dressed = applyOperation(
+      createInitialState('room-a'),
+      { type: 'equip', itemId: 'cream-cardigan' },
+      catalog,
+    )
+
+    expect(dressed.equipped).toMatchObject({
+      top: 'cream-cardigan',
+      bottom: 'plaid-skirt',
+    })
+  })
+
   it('clamps accessory transforms to the logical canvas', () => {
     const state = applyOperation(
       createInitialState('room-a'),

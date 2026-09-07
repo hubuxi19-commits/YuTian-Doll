@@ -9,6 +9,7 @@ type ItemInput = {
   movable?: boolean
   claims?: readonly Slot[]
   defaultTransform?: Transform
+  pairsWith?: string
 }
 
 const item = ({ movable = false, claims, ...input }: ItemInput): CatalogItem => ({
@@ -23,9 +24,9 @@ export const catalog: readonly CatalogItem[] = [
   item({ id: 'daily-pinafore', name: '日常背带裙套装', slot: 'set', style: 'daily', layer: 30, claims: ['set', 'dress', 'top', 'bottom'] }),
   item({ id: 'date-lace-dress', name: '约会蕾丝连衣裙', slot: 'dress', style: 'date', layer: 30, claims: ['set', 'dress', 'top', 'bottom'] }),
   item({ id: 'princess-dress', name: '公主蓬蓬裙', slot: 'dress', style: 'princess', layer: 30, claims: ['set', 'dress', 'top', 'bottom'] }),
-  item({ id: 'cream-cardigan', name: '奶油针织开衫', slot: 'top', style: 'daily', layer: 30, claims: ['set', 'dress', 'top'] }),
-  item({ id: 'pink-hoodie', name: '粉色连帽卫衣', slot: 'top', style: 'daily', layer: 30, claims: ['set', 'dress', 'top'] }),
-  item({ id: 'ribbon-blouse', name: '蝴蝶结衬衫', slot: 'top', style: 'date', layer: 30, claims: ['set', 'dress', 'top'] }),
+  item({ id: 'cream-cardigan', name: '奶油针织开衫', slot: 'top', style: 'daily', layer: 30, claims: ['set', 'dress', 'top'], pairsWith: 'plaid-skirt' }),
+  item({ id: 'pink-hoodie', name: '粉色连帽卫衣', slot: 'top', style: 'daily', layer: 30, claims: ['set', 'dress', 'top'], pairsWith: 'a-line-skirt' }),
+  item({ id: 'ribbon-blouse', name: '蝴蝶结衬衫', slot: 'top', style: 'date', layer: 30, claims: ['set', 'dress', 'top'], pairsWith: 'plaid-skirt' }),
   item({ id: 'plaid-skirt', name: '格纹百褶裙', slot: 'bottom', style: 'daily', layer: 31, claims: ['set', 'dress', 'bottom'] }),
   item({ id: 'a-line-skirt', name: '柔粉 A 字裙', slot: 'bottom', style: 'date', layer: 31, claims: ['set', 'dress', 'bottom'] }),
   item({ id: 'white-sneakers', name: '白色运动鞋', slot: 'shoes', style: 'daily', layer: 32 }),

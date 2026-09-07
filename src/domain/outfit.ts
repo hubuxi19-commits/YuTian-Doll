@@ -69,6 +69,10 @@ export const applyOperation = (
     if (removedId) delete accessories[removedId]
   }
   equipped[selected.slot] = selected.id
+  if (selected.pairsWith && !equipped.bottom) {
+    const paired = findItem(selected.pairsWith, catalog)
+    equipped.bottom = paired.id
+  }
   if (selected.movable && selected.defaultTransform) {
     accessories[selected.id] = { ...selected.defaultTransform }
   }

@@ -1,3 +1,3 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 170">
-  <g fill="#fffdf7" fill-opacity=".12" stroke="#6d4c49" stroke-width="12"><circle cx="108" cy="87" r="70"/><circle cx="312" cy="87" r="70"/><path fill="none" d="M178 83Q210 61 242 83M38 67L2 52M382 67L418 52"/></g>
+  <g fill="#fffdf7" fill-opacity=".1" stroke="#77706d" stroke-width="8" stroke-linecap="round"><circle cx="108" cy="87" r="67"/><circle cx="312" cy="87" r="67"/><path fill="none" d="M175 82Q210 63 245 82M41 67L4 54M379 67L416 54"/><path stroke="#fff" stroke-opacity=".65" stroke-width="5" d="M66 50L86 34M270 50L290 34"/></g>
 </svg>

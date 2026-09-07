@@ -1,8 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 1280">
-  <g stroke="#8a6964" stroke-width="8" stroke-linejoin="round">
-    <path fill="#fff9ed" d="M512 702Q457 714 430 780L451 884Q474 904 505 880L525 807V949H755V807L775 880Q806 904 829 884L850 780Q823 714 768 702L704 685H576Z"/>
-    <path fill="#f6cbd2" d="M573 690L640 756L707 690L694 789L640 767L586 789Z"/>
-    <path fill="#dc8f9d" d="M640 756c-37-39-78-5-55 31l55 40 55-40c23-36-18-70-55-31Z"/>
-    <path fill="none" stroke="#e7b7b6" stroke-width="6" d="M536 913Q640 940 744 913"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 1280"><g stroke="#77706d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path fill="#fff9ef" d="M570 697L530 710Q492 720 472 754L486 837Q501 851 525 839L540 790V918Q640 942 740 918V790L755 839Q779 851 794 837L808 754Q788 720 750 710L710 697Z"/><path fill="#f3c5d0" d="M570 697L612 744L640 723L668 744L710 697L690 775L640 744L590 775Z"/><path fill="#e7a9b8" d="M640 754Q602 727 598 769Q604 800 640 778Q676 800 682 769Q678 727 640 754Z"/><path fill="none" d="M640 780V916"/></g></svg>

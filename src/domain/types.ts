@@ -31,6 +31,7 @@ export type CatalogItem = {
   movable: boolean
   claims: readonly Slot[]
   defaultTransform?: Transform
+  pairsWith?: string
 }
 
 export type RoomState = {
@@ -46,4 +47,3 @@ export type DollOperation =
   | { type: 'remove'; slot: Slot }
   | ({ type: 'transform'; itemId: string } & Transform)
   | { type: 'reset' }
-

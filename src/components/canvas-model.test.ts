@@ -14,6 +14,7 @@ describe('canvas render model', () => {
 
     expect(getRenderableItems(state, catalog).map((entry) => entry.item.id)).toEqual([
       'cream-cardigan',
+      'plaid-skirt',
       'round-glasses',
     ])
   })
