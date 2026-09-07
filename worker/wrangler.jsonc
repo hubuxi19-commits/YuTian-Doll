@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "yutian-doll-room",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-01",
+  "durable_objects": {
+    "bindings": [{ "name": "DOLL_ROOMS", "class_name": "DollRoom" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["DollRoom"] }],
+  "vars": {
+    "ALLOWED_ORIGINS": "https://hubuxi19-commits.github.io,http://localhost:5173,http://127.0.0.1:5173"
+  }
+}
+
