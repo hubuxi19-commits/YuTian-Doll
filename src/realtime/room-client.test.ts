@@ -54,7 +54,8 @@ describe('room client', () => {
 
   it('queues an edit until the connection opens', () => {
     vi.stubGlobal('WebSocket', FakeWebSocket)
-    const client = new DollRoomClient('https://example.workers.dev', roomId, {})
+    const storage = { getItem: vi.fn(() => null), setItem: vi.fn() }
+    const client = new DollRoomClient('https://example.workers.dev', roomId, {}, storage)
     client.connect()
     client.send({ type: 'equip', itemId: 'cream-cardigan' })
     FakeWebSocket.instances[0].open()
@@ -63,5 +64,26 @@ describe('room client', () => {
       JSON.stringify({ type: 'equip', itemId: 'cream-cardigan' }),
     ])
     client.close()
+  })
+
+  it('restores unconfirmed edits after a reload and removes them only after ack', () => {
+    vi.stubGlobal('WebSocket', FakeWebSocket)
+    const values = new Map<string, string>()
+    const storage = {
+      getItem: (key: string) => values.get(key) ?? null,
+      setItem: (key: string, value: string) => values.set(key, value),
+    }
+    const first = new DollRoomClient('https://example.workers.dev', roomId, {}, storage)
+    first.send({ type: 'equip', itemId: 'cream-cardigan' })
+    first.close()
+
+    const second = new DollRoomClient('https://example.workers.dev', roomId, {}, storage)
+    second.connect()
+    const socket = FakeWebSocket.instances.at(-1)!
+    socket.open()
+    expect(socket.sent.at(-1)).toBe(JSON.stringify({ type: 'equip', itemId: 'cream-cardigan' }))
+    socket.receive({ type: 'ack', version: 1, operation: { type: 'equip', itemId: 'cream-cardigan' } })
+    expect([...values.values()]).toContain('[]')
+    second.close()
   })
 })

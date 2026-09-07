@@ -10,7 +10,8 @@ export interface Env {
 }
 
 const ROOM_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-const SNAPSHOT_PATTERN = /^([0-9a-f-]{36})_([0-9a-f]{16})$/i
+const SNAPSHOT_PATTERN = /^[0-9a-f]{32}$/i
+type SnapshotState = Omit<RoomState, 'roomId'>
 
 const json = (body: unknown, status = 200, headers: HeadersInit = {}) =>
   Response.json(body, { status, headers })
@@ -47,7 +48,9 @@ export default {
 
       if (!action && request.method === 'GET') return json(await stub.getState(roomId), 200, headers)
       if (action === 'snapshot' && request.method === 'POST') {
-        const snapshotId = await stub.createSnapshot(roomId)
+        const { roomId: _, ...snapshot } = await stub.getState(roomId)
+        const snapshotId = crypto.randomUUID().replaceAll('-', '')
+        await roomStub(env, `snapshot-${snapshotId}`).saveSnapshot(snapshot)
         return json({ snapshotId }, 201, headers)
       }
       if (action === 'connect' && request.method === 'GET') {
@@ -58,9 +61,9 @@ export default {
 
     const snapshotMatch = url.pathname.match(/^\/snapshot\/([^/]+)$/)
     if (snapshotMatch && request.method === 'GET') {
-      const match = snapshotMatch[1].match(SNAPSHOT_PATTERN)
-      if (!match || !ROOM_PATTERN.test(match[1])) return json({ error: 'INVALID_SNAPSHOT_ID' }, 400, headers)
-      const state = await roomStub(env, match[1]).getSnapshot(snapshotMatch[1])
+      const snapshotId = snapshotMatch[1]
+      if (!SNAPSHOT_PATTERN.test(snapshotId)) return json({ error: 'INVALID_SNAPSHOT_ID' }, 400, headers)
+      const state = await roomStub(env, `snapshot-${snapshotId}`).getSnapshot()
       return state ? json(state, 200, headers) : json({ error: 'SNAPSHOT_NOT_FOUND' }, 404, headers)
     }
 
@@ -90,14 +93,12 @@ export class DollRoom extends DurableObject<Env> {
     return next
   }
 
-  async createSnapshot(roomId: string): Promise<string> {
-    const snapshotId = `${roomId}_${crypto.randomUUID().replaceAll('-', '').slice(0, 16)}`
-    await this.ctx.storage.put(`snapshot:${snapshotId}`, await this.load(roomId))
-    return snapshotId
+  async saveSnapshot(snapshot: SnapshotState): Promise<void> {
+    await this.ctx.storage.put('snapshot', snapshot)
   }
 
-  async getSnapshot(snapshotId: string): Promise<RoomState | null> {
-    return (await this.ctx.storage.get<RoomState>(`snapshot:${snapshotId}`)) ?? null
+  async getSnapshot(): Promise<SnapshotState | null> {
+    return (await this.ctx.storage.get<SnapshotState>('snapshot')) ?? null
   }
 
   async fetch(request: Request): Promise<Response> {
@@ -114,7 +115,6 @@ export class DollRoom extends DurableObject<Env> {
     const [client, server] = Object.values(pair)
     this.ctx.acceptWebSocket(server)
     server.serializeAttachment({ roomId })
-    server.send(JSON.stringify({ type: 'snapshot', state: await this.load(roomId) } satisfies ServerMessage))
     this.broadcastPresence()
     return new Response(null, { status: 101, webSocket: client })
   }
@@ -146,12 +146,16 @@ export class DollRoom extends DurableObject<Env> {
 
   private broadcast(message: ServerMessage) {
     const encoded = JSON.stringify(message)
-    for (const socket of this.ctx.getWebSockets()) {
+    for (const socket of this.activeSockets()) {
       try { socket.send(encoded) } catch { /* stale sockets disappear automatically */ }
     }
   }
 
   private broadcastPresence() {
-    this.broadcast({ type: 'presence', online: this.ctx.getWebSockets().length })
+    this.broadcast({ type: 'presence', online: this.activeSockets().length })
+  }
+
+  private activeSockets() {
+    return this.ctx.getWebSockets().filter((socket) => socket.readyState === WebSocket.OPEN)
   }
 }

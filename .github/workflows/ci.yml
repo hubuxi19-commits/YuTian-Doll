@@ -1,0 +1,31 @@
+name: 检查网站
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - name: 安装网页依赖
+        run: npm ci
+      - name: 检查娃娃原稿与素材
+        run: npm run verify:assets
+      - name: 测试并构建网页
+        run: npm run check
+      - name: 安装实时服务依赖
+        working-directory: worker
+        run: npm ci
+      - name: 测试实时同步与持久化
+        working-directory: worker
+        run: npm test
+      - name: 检查实时服务类型
+        working-directory: worker
+        run: npm run typecheck

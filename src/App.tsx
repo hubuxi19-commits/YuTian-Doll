@@ -37,11 +37,20 @@ export default function App() {
     }
     const roomId = getOrCreateRoomId(pageUrl, window.localStorage)
     window.history.replaceState(null, '', withRoomHash(pageUrl, roomId))
-    replaceRoom({ ...useDollStore.getState().room, roomId })
+    const roomCacheKey = `yutian-room-state:${roomId}`
+    try {
+      const cached = JSON.parse(window.localStorage.getItem(roomCacheKey) ?? 'null')
+      replaceRoom(cached?.roomId === roomId ? cached : { ...useDollStore.getState().room, roomId })
+    } catch {
+      replaceRoom({ ...useDollStore.getState().room, roomId })
+    }
+    const unsubscribe = useDollStore.subscribe((state) => {
+      if (state.room.roomId === roomId) window.localStorage.setItem(roomCacheKey, JSON.stringify(state.room))
+    })
     const client = new DollRoomClient(workerUrl, roomId, {
       onConnection: (state) => {
         setConnection(state)
-        if (state === 'offline') setActivity('离线也能继续搭配，联网后自动同步')
+        if (state === 'offline') setActivity('当前离线；操作会在联网后自动同步')
       },
       onPresence: setOnline,
       onSnapshot: (room, source) => {
@@ -55,6 +64,7 @@ export default function App() {
     client.connect()
     return () => {
       useDollStore.getState().setSender(null)
+      unsubscribe()
       client.close()
       clientRef.current = null
     }

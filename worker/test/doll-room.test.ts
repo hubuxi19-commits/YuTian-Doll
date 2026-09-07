@@ -47,6 +47,7 @@ describe('doll room worker', () => {
     })
     expect(response.status).toBe(200)
     const state = await response.json()
-    expect(state).toMatchObject({ roomId })
+    expect(state).not.toHaveProperty('roomId')
+    expect(created.snapshotId).not.toContain(roomId)
   })
 })
