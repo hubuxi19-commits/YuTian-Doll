@@ -1,5 +1,5 @@
 import Konva from 'konva'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from 'react'
 import { Image as KonvaImage, Layer, Stage, Transformer } from 'react-konva'
 import { CANVAS_SIZE } from '../domain/types'
 import { useDollStore } from '../store/use-doll-store'
@@ -24,10 +24,11 @@ function useAssetImage(source: string) {
 
 type AssetLayerProps = ReturnType<typeof getRenderableItems>[number] & {
   selected: boolean
+  interactive: boolean
   onSelect: () => void
 }
 
-function AssetLayer({ item, transform, selected, onSelect }: AssetLayerProps) {
+function AssetLayer({ item, transform, selected, interactive, onSelect }: AssetLayerProps) {
   const image = useAssetImage(assetUrl(item.asset))
   const dispatch = useDollStore((state) => state.dispatch)
   const shapeRef = useRef<Konva.Image>(null)
@@ -47,7 +48,7 @@ function AssetLayer({ item, transform, selected, onSelect }: AssetLayerProps) {
 
   const commitTransform = () => {
     const node = shapeRef.current
-    if (!node || !movable) return
+    if (!node || !movable || !interactive) return
     dispatch({
       type: 'transform',
       itemId: item.id,
@@ -72,7 +73,7 @@ function AssetLayer({ item, transform, selected, onSelect }: AssetLayerProps) {
         scaleX={movable ? transform.scale : 1}
         scaleY={movable ? transform.scale : 1}
         rotation={movable ? transform.rotation : 0}
-        draggable={Boolean(movable)}
+        draggable={Boolean(movable && interactive)}
         onClick={onSelect}
         onTap={onSelect}
         onDragEnd={commitTransform}
@@ -83,6 +84,7 @@ function AssetLayer({ item, transform, selected, onSelect }: AssetLayerProps) {
       />
       {selected && movable ? (
         <Transformer
+          name="ui-only"
           ref={transformerRef}
           rotateEnabled
           flipEnabled={false}
@@ -100,7 +102,12 @@ function AssetLayer({ item, transform, selected, onSelect }: AssetLayerProps) {
   )
 }
 
-export function DollCanvas() {
+type DollCanvasProps = {
+  stageRef?: RefObject<Konva.Stage | null>
+  readOnly?: boolean
+}
+
+export function DollCanvas({ stageRef, readOnly = false }: DollCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [displaySize, setDisplaySize] = useState(640)
   const baseImage = useAssetImage(assetUrl('/assets/base/doll.jpg'))
@@ -124,6 +131,7 @@ export function DollCanvas() {
       <div className="tape tape-left" aria-hidden="true" />
       <div className="tape tape-right" aria-hidden="true" />
       <Stage
+        ref={stageRef}
         width={displaySize}
         height={displaySize}
         scaleX={ratio}
@@ -141,8 +149,9 @@ export function DollCanvas() {
             <AssetLayer
               key={entry.item.id}
               {...entry}
-              selected={selectedItemId === entry.item.id}
-              onSelect={() => selectItem(entry.item.id)}
+              interactive={!readOnly}
+              selected={!readOnly && selectedItemId === entry.item.id}
+              onSelect={() => { if (!readOnly) selectItem(entry.item.id) }}
             />
           ))}
         </Layer>
@@ -151,4 +160,3 @@ export function DollCanvas() {
     </div>
   )
 }
-

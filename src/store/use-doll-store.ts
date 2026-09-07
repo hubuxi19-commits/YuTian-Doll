@@ -12,6 +12,7 @@ type DollStore = {
   dispatch: (operation: DollOperation) => void
   selectItem: (itemId: string | null) => void
   setActiveCategory: (category: WardrobeCategory) => void
+  replaceRoom: (room: RoomState) => void
 }
 
 export const useDollStore = create<DollStore>((set) => ({
@@ -25,5 +26,5 @@ export const useDollStore = create<DollStore>((set) => ({
     })),
   selectItem: (selectedItemId) => set({ selectedItemId }),
   setActiveCategory: (activeCategory) => set({ activeCategory }),
+  replaceRoom: (room) => set({ room, selectedItemId: null }),
 }))
-

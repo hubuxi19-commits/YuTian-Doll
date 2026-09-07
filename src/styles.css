@@ -70,13 +70,18 @@ button:focus-visible { outline: 3px solid rgba(184, 111, 125, .4); outline-offse
 .style-daily { background: #a6bda4; }.style-date { background: #e6a5ad; }.style-princess { background: #d8b0df; }
 .tiny-letter { display: flex; gap: 12px; margin: 16px 14px 0; padding: 14px 17px; border-left: 2px solid #d99ca7; color: #8d706a; font: 14px/1.7 "STKaiti", "KaiTi", serif; }
 .tiny-letter p { margin: 0; }.tiny-letter span { color: var(--rose); }
+.readonly-card { padding: 28px; border: 1px solid var(--line); border-radius: 28px; background: rgba(255,253,249,.86); color: var(--muted); line-height: 1.8; box-shadow: var(--shadow); }
 
 @media (max-width: 800px) {
   .app-shell { width: min(100% - 20px, 620px); padding-top: 17px; }
   .topbar { align-items: flex-start; margin-bottom: 18px; }
   .brand-mark { width: 45px; border-radius: 15px; }
   .brand-lockup p { display: none; }.brand-lockup h1 { font-size: 22px; }
-  .presence-pill { padding: 8px 11px; font-size: 12px; }.soft-button { display: none; }
+  .topbar { flex-wrap: wrap; }
+  .top-actions { order: 3; width: 100%; overflow-x: auto; padding: 2px 0 5px; scrollbar-width: none; }
+  .top-actions::-webkit-scrollbar { display: none; }
+  .presence-pill { padding: 8px 11px; font-size: 12px; }
+  .soft-button { flex: 0 0 auto; padding: 8px 11px; font-size: 12px; }
   .studio-layout { display: flex; flex-direction: column; gap: 22px; }
   .canvas-column, .wardrobe-column { width: 100%; }
   .canvas-shell { border-radius: 27px 27px 34px 27px; }
