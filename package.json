@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
+    "verify:assets": "node scripts/verify-assets.mjs",
     "check": "npm test && npm run build"
   },
   "dependencies": {
@@ -22,6 +23,7 @@
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.0",
+    "@types/node": "^26.4.1",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
     "@vitejs/plugin-react": "^5.0.0",
@@ -31,4 +33,3 @@
     "vitest": "^3.2.0"
   }
 }
-

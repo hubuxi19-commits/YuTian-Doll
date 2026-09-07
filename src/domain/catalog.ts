@@ -15,8 +15,8 @@ const item = ({ movable = false, claims, ...input }: ItemInput): CatalogItem => 
   ...input,
   movable,
   claims: claims ?? [input.slot],
-  asset: `/assets/items/${input.id}.png`,
-  thumbnail: `/assets/items/${input.id}.png`,
+  asset: `/assets/items/${input.id}.svg`,
+  thumbnail: `/assets/items/${input.id}.svg`,
 })
 
 export const catalog: readonly CatalogItem[] = [
@@ -38,4 +38,3 @@ export const catalog: readonly CatalogItem[] = [
 ]
 
 export const catalogById = new Map(catalog.map((entry) => [entry.id, entry]))
-

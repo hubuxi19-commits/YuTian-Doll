@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 1280">
+  <defs><clipPath id="s"><path d="M517 862H763L799 1080Q640 1124 481 1080Z"/></clipPath></defs>
+  <path fill="#9b7775" stroke="#664b4b" stroke-width="8" stroke-linejoin="round" d="M517 862H763L799 1080Q640 1124 481 1080Z"/>
+  <g clip-path="url(#s)" stroke="#f4d6cf" stroke-width="10" opacity=".72"><path d="M530 850V1110M605 850V1110M680 850V1110M755 850V1110M450 920H830M450 1000H830"/></g>
+  <path fill="#6c5050" d="M512 860H768V900H512Z"/>
+</svg>

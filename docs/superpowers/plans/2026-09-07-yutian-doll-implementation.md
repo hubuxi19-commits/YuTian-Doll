@@ -14,7 +14,7 @@
 
 - The logical and exported canvas is exactly 1280×1280 pixels.
 - The supplied doll body, face, facial features, and existing hair remain pixel-identical to the source artwork.
-- Clothing uses aligned transparent PNG layers; movable accessories use bounded `x`, `y`, `scale`, and `rotation` values.
+- Clothing uses aligned transparent SVG or PNG layers; movable accessories use bounded `x`, `y`, `scale`, and `rotation` values.
 - The client is mobile-first and remains usable on desktop browsers.
 - The room requires no account or password and is identified by a UUID v4 in the URL hash.
 - The server accepts only catalog item IDs and validated protocol messages.
@@ -37,7 +37,7 @@
 - `src/components/StatusBar.tsx`: connection, presence, export, share, and reset controls.
 - `src/App.tsx`, `src/styles.css`: responsive composition and visual system.
 - `public/assets/base/doll.jpg`: unchanged supplied source artwork.
-- `public/assets/items/*.png`: 15 transparent wardrobe layers.
+- `public/assets/items/*.svg`: 15 transparent wardrobe layers.
 - `worker/src/protocol.ts`: server-side protocol validation.
 - `worker/src/doll-room.ts`: room persistence, ordering, presence, snapshots, and broadcasts.
 - `worker/src/index.ts`: HTTP routing, CORS, WebSocket upgrades, and read-only snapshots.
@@ -126,7 +126,7 @@ git commit -m "feat: add wardrobe domain model"
 
 **Files:**
 - Create: `public/assets/base/doll.jpg`
-- Create: `public/assets/items/*.png`
+- Create: `public/assets/items/*.svg`
 - Create: `public/assets/items/manifest.json`
 - Create: `scripts/verify-assets.mjs`
 - Test: `src/domain/catalog.test.ts`
@@ -177,7 +177,7 @@ Expand each tuple into full metadata with layer, occupied slots, movable flag, d
 
 - [ ] **Step 4: Produce and verify artwork**
 
-Keep the supplied JPEG byte-for-byte unchanged as `public/assets/base/doll.jpg`. Produce transparent 1280×1280 clothing layers and tight transparent accessory layers. Run `node scripts/verify-assets.mjs`; it must verify image presence, PNG signatures, dimensions for aligned clothing, and source/base SHA-256 equality.
+Keep the supplied JPEG byte-for-byte unchanged as `public/assets/base/doll.jpg`. Produce transparent 1280×1280 SVG clothing layers and tight transparent SVG accessory layers. Run `node scripts/verify-assets.mjs`; it must verify asset presence, SVG view boxes, and source/base SHA-256 equality.
 
 - [ ] **Step 5: Run catalog and asset tests**
 
